@@ -1,0 +1,56 @@
+INSERT
+.................
+INSERT INTO doctor VALUES ( NULL, '$fn', '$mn','$ln','$age','$dn','$de','$jd');
+INSERT INTO qualifications VALUES ('$dql','$dd','$di',NULL,'$did');
+INSERT INTO pa VALUES ($sa, '$ep','$sn','$en','$pn','$st','$zc','$c',NULL,$doi);
+INSERT INTO patient VALUES ( NULL,'$e', '$dob','$fn','$mn','$ln','$pn','$st','$c','$zc','$sta',$did);
+INSERT INTO diseases VALUES ('$din', NULL,'$ds',$docid);
+INSERT INTO test VALUES ( '$tn', '$r','$tin',NULL,$pid,$did);
+
+
+SELECT
+..........................
+SELECT * FROM doctor;
+SELECT * FROM qualifications;
+SELECT * FROM pa;
+SELECT * FROM patient;
+SELECT * FROM diseases;
+SELECT * FROM test;
+
+
+DELETE 
+...................
+DELETE FROM doctor WHERE Doctor_id=$Doctor_id;
+DELETE FROM qualifications WHERE Qua_ID=$Qua_ID;
+DELETE FROM pa WHERE PA_ID=$PA_ID;
+DELETE FROM patient WHERE Patient_id=$Patient_id;
+DELETE FROM diseases WHERE Diseases_Code=$Diseases_Code;
+DELETE FROM test WHERE Test_Serial=$Test_Serial;
+
+
+UPDATE
+...............
+UPDATE doctor SET First_Name='$fname', Middle_Name='$mname', Last_Name='$lname', Age='$age', Doctor_Number='$dno' , Doctor_Email='$dem' , Joining_Date='$jdate' WHERE Doctor_id = $id;
+UPDATE qualifications SET Doc_Q_length='$dol', Doc_Degree='$dd', Doc_Institution='$di', Doctor_id='$did' WHERE Qua_ID = $id;
+UPDATE pa SET Salary='$s', Email_PA='$ep', Start_Name='$sn', End_Name='$en', PA_Number='$pn' , Street='$st' , Zip_Code='$zp', City='$c', Doctor_id='$did' WHERE PA_ID = $id;
+UPDATE patient SET Email='$e', DOB='$dob', First_Name='$fn', Middle_Name='$mn', Last_Name='$lm' , Patient_Number='$pn' , Street='$st',City='$c', Zip_Code='$zc', State='$sta' , Doctor_id='$did' WHERE Patient_id = $id;
+UPDATE diseases SET Diseases_Name='$dn', Diseases_Symptom='$ds', Doctor_id='$did' WHERE Diseases_Code = $id;
+UPDATE test SET Test_Name='$tn', Result='$r', Time_Needed='$tin', Patient_id='$pid', Doctor_id='$did' WHERE Test_Serial = $id;
+
+
+AGRREGATIONS
+................
+SELECT COUNT(*) c FROM doctor;
+SELECT Max(salary) c,Sum(salary) s FROM pa;
+
+JOIN
+..................
+SELECT d.Doctor_Email,q.Doc_Institution FROM doctor d JOIN qualifications q USING(Doctor_id);
+SELECT d.First_Name,d.Middle_Name,d.Last_Name, di.Diseases_Name FROM doctor d JOIN diseases di USING(Doctor_id);
+
+
+SUB
+................
+
+SELECT Start_Name,End_Name,Salary from pa WHERE Salary=(SELECT max(Salary) from pa);
+SELECT First_Name,Middle_Name,Last_Name from patient WHERE Zip_Code IN(SELECT Zip_Code FROM patient WHERE City = 'Dhaka');

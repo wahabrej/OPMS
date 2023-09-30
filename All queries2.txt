@@ -1,0 +1,39 @@
+
+INSERT INTO carry VALUES ( '$cd', $pid,$dc);
+INSERT INTO method VALUES ( NULL, '$mp', '$muf',$pid);
+INSERT INTO chamber VALUES ( $cr,NULL, '$l','$at','$tn',$did,$pid);
+INSERT INTO history VALUES ( '$r', '$vd','$vm','$vy',NULL,$pa,$pid);
+INSERT INTO payment VALUES ( NULL, '$pd', '$oa','$na','$tp','$p','$un','$pt',$pid);
+INSERT INTO prescription VALUES ( NULL, '$di','$m','$d',$did,$p);
+INSERT INTO blood VALUES ( '$bg', '$qb',NULL,'$nod',$pid);
+SELECT * FROM carry;
+SELECT * FROM method;
+SELECT * FROM chamber;
+SELECT* FROM history;
+SELECT * FROM payment;
+SELECT * FROM prescription;
+SELECT * FROM blood;
+DELETE FROM carry WHERE Patient_id =$Patient_id;
+DELETE FROM method WHERE Method_Code=$Method_Code;
+DELETE FROM chamber WHERE Chamber_no=$Chamber_no;
+DELETE FROM history WHERE H_Code=$H_Code;
+DELETE FROM payment WHERE Payment_id=$Payment_id;
+DELETE FROM prescription WHERE Prescription_no=$Prescription_no;
+DELETE FROM blood WHERE Donor_ID=$Donor_ID;
+UPDATE carry SET C_Days='$cd', Patient_id='$id', Diseases_Code='$dc' WHERE Patient_id = $id;
+UPDATE method SET Method_Process='$mp', Method_Used_for='$mu', Payment_id='$pi'  WHERE Method_Code= $id;
+UPDATE chamber SET Chamber_Rent='$cr', location='$lo', Available_Time='$at', Telephone_no='$tn' , Doctor_id='$di' , PA_ID='$pi' WHERE Chamber_no = $id;
+UPDATE history SET Remarks='$r', V_Date='$vd', V_Month='$vm',V_Year='$vy', Patient_id='$pi', Payment_id='$pai' WHERE H_Code= $id;
+UPDATE payment SET Payment_Date='$pd', Old_Amount='$oa', New_Amount='$na',Total_Payment='$tp', Paid='$p', Unpaid='$up', Payment_Time='$pt', Patient_id='$pi' WHERE Payment_id= $id;
+UPDATE prescription SET Direction='$dir', Medicine='$me', Dose='$d',Doctor_id='$di', Patient_id='$pi' WHERE Prescription_no= $id;
+UPDATE blood SET Blood_Group='$bg', Quantity_Blood='$qb', Number_of_donations='$nd', Patient_id='$pi'  WHERE Donor_ID = $id;
+SELECT max(Chamber_Rent) c, SUM(Chamber_Rent) r from chamber;
+SELECT COUNT(Method_Process) FROM method;
+SELECT Available_Time,Telephone_no from chamber WHERE Chamber_Rent=(SELECT max(Chamber_Rent) from chamber);
+SELECT Blood_Group,Number_of_donations FROM blood WHERE Quantity_Blood>(SELECT MIN(Quantity_Blood) FROM blood);
+SELECT p.Payment_id,p.Total_Payment,p.Patient_id,h.H_Code from payment p JOIN history h USING(Payment_id);
+SELECT pa.Email,p.Direction,p.Medicine FROM prescription p JOIN patient pa USING(Patient_id);
+
+
+
+
